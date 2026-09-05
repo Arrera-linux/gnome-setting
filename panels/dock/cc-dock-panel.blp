@@ -1,0 +1,64 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $CcDockPanel: $CcPanel {
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    content: Adw.PreferencesPage {
+      Adw.PreferencesGroup {
+        title: _("Comportement");
+
+        Adw.SwitchRow autohide_row {
+          title: _("_Masquer automatiquement le dock");
+          subtitle: _("Révèle le dock lorsque le curseur touche le bord inférieur de l'écran");
+          use-underline: true;
+        }
+
+        Adw.SwitchRow wave_row {
+          title: _("Effet d'a_grandissement en vague");
+          subtitle: _("Agrandit dynamiquement les icônes au survol");
+          use-underline: true;
+        }
+
+        Adw.SwitchRow super_key_row {
+          title: _("Ouvrir le lanceur avec la touche _Super");
+          subtitle: _("Désactiver pour rétablir la vue d'ensemble des activités de GNOME");
+          use-underline: true;
+        }
+      }
+
+      Adw.PreferencesGroup {
+        title: _("Apparence du dock");
+
+        Adw.ComboRow size_row {
+          title: _("_Taille des icônes");
+          use-underline: true;
+          notify::selected => $size_changed_cb(template);
+
+          model: StringList {
+            strings [
+              _("Petite (28 px)"),
+              _("Moyenne (36 px)"),
+              _("Grande (48 px)"),
+            ]
+          };
+        }
+
+        Adw.ComboRow theme_row {
+          title: _("Style _visuel");
+          use-underline: true;
+          notify::selected => $theme_changed_cb(template);
+
+          model: StringList {
+            strings [
+              _("Material Expressive (fond teinté)"),
+              _("Noir avec contour coloré"),
+            ]
+          };
+        }
+      }
+    };
+  };
+}

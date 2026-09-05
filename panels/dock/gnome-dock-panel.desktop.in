@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Apparence du dock
+Comment=Personnaliser le style, la taille et le comportement du dock
+Exec=gnome-control-center dock
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+Icon=org.gnome.Settings-dock-symbolic
+Terminal=false
+Type=Application
+NoDisplay=true
+StartupNotify=true
+Categories=GNOME;GTK;Settings;DesktopSettings;X-GNOME-Settings-Panel;X-GNOME-PersonalizationSettings;
+OnlyShowIn=GNOME;
+# Translators: Search terms to find the Dock panel. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords=Dock;Arrera;Barre des tâches;Masquage;Taille;Thème;Vague;Icônes;Apparence;Super;Lanceur;
