@@ -17,11 +17,44 @@ struct _CcDockPanel
   AdwSwitchRow *autohide_row;
   AdwSwitchRow *wave_row;
   AdwSwitchRow *super_key_row;
+  AdwComboRow  *position_row;
   AdwComboRow  *size_row;
   AdwComboRow  *theme_row;
 };
 
 CC_PANEL_REGISTER (CcDockPanel, cc_dock_panel)
+
+static void
+position_changed_cb (CcDockPanel *self)
+{
+  guint selected;
+  const gchar *val;
+  GSettingsSchema *schema = NULL;
+
+  g_assert (CC_IS_DOCK_PANEL (self));
+
+  if (!self->dock_settings)
+    return;
+
+  g_object_get (self->dock_settings, "settings-schema", &schema, NULL);
+  if (schema)
+    {
+      gboolean has_key = g_settings_schema_has_key (schema, "position");
+      g_settings_schema_unref (schema);
+      if (!has_key)
+        return;
+    }
+
+  selected = adw_combo_row_get_selected (self->position_row);
+  if (selected == 1)
+    val = "left";
+  else if (selected == 2)
+    val = "right";
+  else
+    val = "bottom";
+
+  g_settings_set_string (self->dock_settings, "position", val);
+}
 
 static void
 size_changed_cb (CcDockPanel *self)
@@ -105,9 +138,11 @@ cc_dock_panel_class_init (CcDockPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, CcDockPanel, autohide_row);
   gtk_widget_class_bind_template_child (widget_class, CcDockPanel, wave_row);
   gtk_widget_class_bind_template_child (widget_class, CcDockPanel, super_key_row);
+  gtk_widget_class_bind_template_child (widget_class, CcDockPanel, position_row);
   gtk_widget_class_bind_template_child (widget_class, CcDockPanel, size_row);
   gtk_widget_class_bind_template_child (widget_class, CcDockPanel, theme_row);
 
+  gtk_widget_class_bind_template_callback (widget_class, position_changed_cb);
   gtk_widget_class_bind_template_callback (widget_class, size_changed_cb);
   gtk_widget_class_bind_template_callback (widget_class, theme_changed_cb);
 }
@@ -168,7 +203,23 @@ cc_dock_panel_init (CcDockPanel *self)
       gtk_widget_set_visible (GTK_WIDGET (self->super_key_row), FALSE);
     }
 
-  /* 2. Initialisation de la sélection taille */
+  /* 2. Initialisation de la position */
+  if (g_settings_schema_has_key (schema, "position"))
+    {
+      g_autofree gchar *current_pos = g_settings_get_string (self->dock_settings, "position");
+      if (g_strcmp0 (current_pos, "left") == 0)
+        adw_combo_row_set_selected (self->position_row, 1);
+      else if (g_strcmp0 (current_pos, "right") == 0)
+        adw_combo_row_set_selected (self->position_row, 2);
+      else
+        adw_combo_row_set_selected (self->position_row, 0);
+    }
+  else
+    {
+      gtk_widget_set_visible (GTK_WIDGET (self->position_row), FALSE);
+    }
+
+  /* 3. Initialisation de la sélection taille */
   if (g_settings_schema_has_key (schema, "icon-size"))
     {
       g_autofree gchar *current_size = g_settings_get_string (self->dock_settings, "icon-size");
@@ -184,7 +235,7 @@ cc_dock_panel_init (CcDockPanel *self)
       gtk_widget_set_visible (GTK_WIDGET (self->size_row), FALSE);
     }
 
-  /* 3. Initialisation de la sélection thème */
+  /* 4. Initialisation de la sélection thème */
   if (g_settings_schema_has_key (schema, "theme-mode"))
     {
       g_autofree gchar *current_theme = g_settings_get_string (self->dock_settings, "theme-mode");

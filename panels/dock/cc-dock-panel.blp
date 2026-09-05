@@ -32,6 +32,20 @@ template $CcDockPanel: $CcPanel {
       Adw.PreferencesGroup {
         title: _("Apparence du dock");
 
+        Adw.ComboRow position_row {
+          title: _("_Position à l'écran");
+          use-underline: true;
+          notify::selected => $position_changed_cb(template);
+
+          model: StringList {
+            strings [
+              _("En bas"),
+              _("À gauche"),
+              _("À droite"),
+            ]
+          };
+        }
+
         Adw.ComboRow size_row {
           title: _("_Taille des icônes");
           use-underline: true;
