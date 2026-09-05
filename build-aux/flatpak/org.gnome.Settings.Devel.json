@@ -27,7 +27,7 @@
         "env" : {
             "V" : "1"
         },
-        "build-args": [
+        "build-args" : [
             "--share=network"
         ]
     },
@@ -61,7 +61,9 @@
         },
         {
             "name" : "intltool",
-            "cleanup" : [ "*" ],
+            "cleanup" : [
+                "*"
+            ],
             "sources" : [
                 {
                     "type" : "archive",
@@ -257,7 +259,7 @@
                     "name" : "keyutils",
                     "buildsystem" : "simple",
                     "build-commands" : [
-                        "make NO_ARLIB=1 BINDIR=/app/bin SBINDIR=/app/sbin LIBDIR=/app/lib INCLUDEDIR=/app/include MANDIR=/app/share/man SHAREDIR=/app install"
+                        "make NO_ARLIB=1 BINDIR=/app/bin SBINDIR=/app/sbin LIBDIR=/app/lib INCLUDEDIR=/app/include MANDIR=/app/share/man SHAREDIR=/app ETCDIR=/app/etc install"
                     ],
                     "sources" : [
                         {
@@ -282,10 +284,10 @@
             "name" : "geocode-glib",
             "buildsystem" : "meson",
             "config-opts" : [
-            	"-Denable-installed-tests=false",
-            	"-Denable-introspection=false",
-            	"-Denable-gtk-doc=false",
-            	"-Dsoup2=false"
+                "-Denable-installed-tests=false",
+                "-Denable-introspection=false",
+                "-Denable-gtk-doc=false",
+                "-Dsoup2=false"
             ],
             "sources" : [
                 {
@@ -298,12 +300,12 @@
             "name" : "libgweather",
             "buildsystem" : "meson",
             "config-opts" : [
-            	"-Denable_vala=false",
-            	"-Dgtk_doc=false",
-            	"-Dintrospection=false",
-            	"-Dtests=false"
+                "-Denable_vala=false",
+                "-Dgtk_doc=false",
+                "-Dintrospection=false",
+                "-Dtests=false"
             ],
-            "modules": [
+            "modules" : [
                 {
                     "name" : "gweather-locations",
                     "buildsystem" : "meson",
@@ -392,7 +394,9 @@
                 "-Dqt=false",
                 "-Dselinux=false",
                 "-Dsession_tracking=no",
+                "-Dclat=false",
                 "-Dsystemdsystemunitdir=/app/lib/systemd/system",
+                "-Dsystemdsystemgeneratordir=no",
                 "-Dudev_dir=/app/lib/udev",
                 "-Dsystemd_journal=false",
                 "-Dtests=no",
@@ -402,7 +406,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch": "main",
+                    "branch" : "main",
                     "url" : "https://gitlab.freedesktop.org/NetworkManager/NetworkManager.git"
                 }
             ]
@@ -413,7 +417,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch": "main",
+                    "branch" : "main",
                     "url" : "https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git"
                 }
             ]
@@ -461,7 +465,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch": "main",
+                    "branch" : "main",
                     "url" : "https://gitlab.gnome.org/GNOME/NetworkManager-openvpn.git"
                 }
             ]
@@ -475,7 +479,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch": "main",
+                    "branch" : "main",
                     "url" : "https://gitlab.gnome.org/GNOME/NetworkManager-vpnc.git"
                 }
             ]
@@ -522,17 +526,17 @@
                     "url" : "https://gitlab.gnome.org/GNOME/gnome-settings-daemon.git"
                 }
             ],
-            "modules": [
+            "modules" : [
                 {
-                    "name": "libcanberra",
-                    "sources": [
+                    "name" : "libcanberra",
+                    "sources" : [
                         {
-                            "type": "archive",
-                            "url": "http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz",
-                            "sha256": "c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72"
+                            "type" : "archive",
+                            "url" : "http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz",
+                            "sha256" : "c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72"
                         }
                     ],
-                    "config-opts": [
+                    "config-opts" : [
                         "--disable-alsa",
                         "--disable-null",
                         "--disable-oss"
@@ -571,9 +575,9 @@
             ],
             "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.8.tgz",
-                    "sha256": "48969323e94e3be3b03c6a132942dcba7ef8d545f2ad35401709019f696c3c4e"
+                    "type" : "archive",
+                    "url" : "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.8.tgz",
+                    "sha256" : "48969323e94e3be3b03c6a132942dcba7ef8d545f2ad35401709019f696c3c4e"
                 }
             ]
         },
@@ -618,24 +622,26 @@
             ]
         },
         {
-            "name": "yapp-driver",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "yapp-driver",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "perl Makefile.PL",
                 "make install -j1"
             ],
             "build-options" : {
-                "env" :  {
-                    "PERL5LIB": "/app/lib/perl5/",
-                    "PERL_MM_OPT": "INSTALL_BASE=/app"
+                "env" : {
+                    "PERL5LIB" : "/app/lib/perl5/",
+                    "PERL_MM_OPT" : "INSTALL_BASE=/app"
                 }
             },
-            "cleanup": [ "*" ],
-            "sources": [
+            "cleanup" : [
+                "*"
+            ],
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz",
-                    "sha256": "3810e998308fba2e0f4f26043035032b027ce51ce5c8a52a8b8e340ca65f13e5"
+                    "type" : "archive",
+                    "url" : "https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz",
+                    "sha256" : "3810e998308fba2e0f4f26043035032b027ce51ce5c8a52a8b8e340ca65f13e5"
                 }
             ]
         },
@@ -648,9 +654,9 @@
                 "--without-pam"
             ],
             "build-options" : {
-                "env" :  {
-                    "PERL5LIB": "/app/lib/perl5/",
-                    "PERL_MM_OPT": "INSTALL_BASE=/app"
+                "env" : {
+                    "PERL5LIB" : "/app/lib/perl5/",
+                    "PERL_MM_OPT" : "INSTALL_BASE=/app"
                 }
             },
             "sources" : [
@@ -692,35 +698,35 @@
             ]
         },
         {
-            "name": "python3-jinja2",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "python3-jinja2",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"jinja2\" --no-build-isolation"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/1d/97/2288fe498044284f39ab8950703e88abbac2abbdf65524d576157af70556/MarkupSafe-2.1.1.tar.gz",
-                    "sha256": "7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"
+                    "type" : "file",
+                    "url" : "https://files.pythonhosted.org/packages/1d/97/2288fe498044284f39ab8950703e88abbac2abbdf65524d576157af70556/MarkupSafe-2.1.1.tar.gz",
+                    "sha256" : "7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"
                 },
                 {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/bc/c3/f068337a370801f372f2f8f6bad74a5c140f6fda3d9de154052708dd3c65/Jinja2-3.1.2-py3-none-any.whl",
-                    "sha256": "6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"
+                    "type" : "file",
+                    "url" : "https://files.pythonhosted.org/packages/bc/c3/f068337a370801f372f2f8f6bad74a5c140f6fda3d9de154052708dd3c65/Jinja2-3.1.2-py3-none-any.whl",
+                    "sha256" : "6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"
                 }
             ]
         },
         {
-            "name": "python3-attrs",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "python3-attrs",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"attrs\" --no-build-isolation"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/f0/eb/fcb708c7bf5056045e9e98f62b93bd7467eb718b0202e7698eb11d66416c/attrs-23.1.0-py3-none-any.whl",
-                    "sha256": "1f28b4522cdc2fb4256ac1a020c78acf9cba2c6b461ccd2c126f3aa8e8335d04"
+                    "type" : "file",
+                    "url" : "https://files.pythonhosted.org/packages/f0/eb/fcb708c7bf5056045e9e98f62b93bd7467eb718b0202e7698eb11d66416c/attrs-23.1.0-py3-none-any.whl",
+                    "sha256" : "1f28b4522cdc2fb4256ac1a020c78acf9cba2c6b461ccd2c126f3aa8e8335d04"
                 }
             ]
         },
@@ -740,16 +746,16 @@
             ]
         },
         {
-            "name": "python3-docutils",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "python3-docutils",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"docutils\" --no-build-isolation"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/8f/d7/9322c609343d929e75e7e5e6255e614fcc67572cfd083959cdef3b7aad79/docutils-0.21.2-py3-none-any.whl",
-                    "sha256": "dafca5b9e384f0e419294eb4d2ff9fa826435bf15f15b7bd45723e8ad76811b2"
+                    "type" : "file",
+                    "url" : "https://files.pythonhosted.org/packages/8f/d7/9322c609343d929e75e7e5e6255e614fcc67572cfd083959cdef3b7aad79/docutils-0.21.2-py3-none-any.whl",
+                    "sha256" : "dafca5b9e384f0e419294eb4d2ff9fa826435bf15f15b7bd45723e8ad76811b2"
                 }
             ]
         },
@@ -774,7 +780,7 @@
                     "url" : "https://gitlab.gnome.org/gnome/mutter.git"
                 }
             ],
-            "modules": [
+            "modules" : [
                 {
                     "name" : "libdisplay-info",
                     "buildsystem" : "meson",
@@ -785,7 +791,7 @@
                             "url" : "https://gitlab.freedesktop.org/emersion/libdisplay-info.git"
                         }
                     ],
-                    "modules": [
+                    "modules" : [
                         {
                             "name" : "hwdata",
                             "config-opts" : [
@@ -908,14 +914,13 @@
                 }
             ]
         },
-
         {
             "name" : "gnome-backgrounds",
             "buildsystem" : "meson",
             "sources" : [
                 {
                     "type" : "git",
-                    "branch": "main",
+                    "branch" : "main",
                     "url" : "https://gitlab.gnome.org/GNOME/gnome-backgrounds.git"
                 }
             ]
@@ -926,7 +931,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch": "main",
+                    "branch" : "main",
                     "url" : "https://gitlab.gnome.org/GNOME/tecla.git"
                 }
             ]
@@ -1001,7 +1006,8 @@
                 "-Dsnap=false",
                 "-Dtests=false",
                 "-Dprofile=development",
-                "-Dmalcontent=true"
+                "-Dmalcontent=true",
+                "--libdir=lib"
             ]
         }
     ]
